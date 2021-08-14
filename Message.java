@@ -1,5 +1,3 @@
-package DSC30.PA2;
-
 import java.time.LocalDate;
 
 public abstract class Message {
