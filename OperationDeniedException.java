@@ -1,5 +1,3 @@
-package DSC30.PA2;
-
 /**
  * OperationDeniedException implementation. DO NOT MODIFY.
  */
