@@ -52,7 +52,7 @@ public abstract class User {
         if(!me.addUser(this)) throw new IllegalArgumentException();
         if(lines==-1){
             try {
-                TextMessage message=new TextMessage(this, contents));
+                TextMessage message=new TextMessage(this, contents);
             } catch(Exception e) {
                 System.out.println(e.getMessage());
             } finally {
