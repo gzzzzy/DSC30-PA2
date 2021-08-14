@@ -1,4 +1,3 @@
-package DSC30.PA2;
 
 public class TextMessage extends Message {
 
