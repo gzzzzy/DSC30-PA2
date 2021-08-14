@@ -1,4 +1,3 @@
-package DSC30.PA2;
 
 /*
  * NAME: TODO First Last
