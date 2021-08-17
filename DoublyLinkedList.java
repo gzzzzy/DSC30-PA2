@@ -1,7 +1,8 @@
 
+
 /*
- * NAME: TODO First Last
- * PID: TODO Axxxxxxxx
+ * NAME: Zhiyu Gao
+ * PID: A17245309
  */
 
 import java.util.AbstractList;
@@ -11,8 +12,8 @@ import java.util.LinkedList;
 /**
  * Doubly-Linked List Implementation
  *
- * @author TODO
- * @since TODO
+ * @author Zhiyu Gao
+ * @since 8/14/2021
  */
 
     public class DoublyLinkedList {
@@ -33,7 +34,9 @@ import java.util.LinkedList;
          * Constructor to create singleton Node
          */
         private Node(int element) {
-            // TODO: complete constructor
+            data=element;
+            next=null;
+            prev=null;
         }
 
         /**
@@ -44,7 +47,9 @@ import java.util.LinkedList;
          * @param prevNode predecessor Node, can be null
          */
         private Node(int element, Node nextNode, Node prevNode) {
-            // TODO: complete implementation
+            data=element;
+            next=nextNode;
+            prev=prevNode;
         }
 
         /**
@@ -53,7 +58,7 @@ import java.util.LinkedList;
          * @param p new previous node
          */
         public void setPrev(Node p) {
-            // TODO: complete implementation
+            prev=p;
         }
 
         /**
@@ -62,7 +67,7 @@ import java.util.LinkedList;
          * @param n new next node
          */
         public void setNext(Node n) {
-            // TODO: complete implementation
+            next=n;
         }
 
         /**
@@ -71,35 +76,35 @@ import java.util.LinkedList;
          * @param e new element
          */
         public void setElement(int e) {
-            // TODO: complete implementation
+            data=e;
         }
 
         /**
          * Accessor to get the next Node in the list
          */
         public Node getNext() {
-            return null; // TODO: complete implementation
+            return next; 
         }
 
         /**
          * Accessor to get the prev Node in the list
          */
         public Node getPrev() {
-            return null; // TODO: complete implementation
+            return prev; 
         }
 
         /**
          * Accessor to get the Nodes Element
          */
         public int getElement() {
-            return 0; // TODO: complete implementation
+            return data;
         }
 
         /**
          * Remove this node from the list. Update previous and next nodes
          */
         public void remove() {
-            // TODO: complete implementation
+            getPrev().setNext(getNext());
         }
     }
 
@@ -107,7 +112,10 @@ import java.util.LinkedList;
      * Creates a new, empty doubly-linked list.
      */
     public DoublyLinkedList() {
-        // TODO: complete default constructor
+        nelems=0;
+        head=new Node(0,null,null);
+        tail=new Node(0, null, head);
+        head.setNext(tail);
     }
 
     /**
@@ -116,8 +124,7 @@ import java.util.LinkedList;
      * @return Number of elements currently on the list
      */
     public int size() {
-        // TODO: complete implementation
-        return 0;
+        return nelems;
     }
 
     /**
@@ -129,8 +136,9 @@ import java.util.LinkedList;
      *                                   the current list.
      */
     public int get(int index) throws IndexOutOfBoundsException {
-        // TODO: Fill in implementation to get the node at index
-        return 0;
+        if(index<0||index>=nelems) throw new IndexOutOfBoundsException();
+        Node currNode=getNth(index);
+        return currNode.getElement();
     }
 
     /**
@@ -139,7 +147,12 @@ import java.util.LinkedList;
      * @param data data to be added
      */
     public boolean add(int data) {
-        // TODO: complete implementation
+        Node addNode=new Node(data);
+        addNode.prev=tail.prev;
+        tail.prev.next=addNode; // also addNode.prev.next=addNode;
+        addNode.next=tail;
+        tail.prev=addNode;
+        ++nelems;
         return true;
     }
 
@@ -154,7 +167,13 @@ import java.util.LinkedList;
      */
     public void add(int index, int data)
             throws IndexOutOfBoundsException {
-        // TODO: complete implementation
+        if(index<0||index>nelems) throw new IndexOutOfBoundsException();
+        Node addNode=new Node(data), currNode=getNth(index-1);
+        addNode.next=currNode.next;
+        addNode.next.prev=addNode;
+        currNode.next=addNode;
+        addNode.prev=currNode;
+        ++nelems;
     }
 
     /**
@@ -168,8 +187,11 @@ import java.util.LinkedList;
      */
     public int set(int index, int data)
             throws IndexOutOfBoundsException {
-        // TODO: Fill in implementation
-        return 0;
+        if(index<0||index>=nelems) throw new IndexOutOfBoundsException();
+        Node setNode=getNth(index);
+        int re=setNode.getElement();
+        setNode.setElement(data);
+        return re;
     }
 
     /**
@@ -179,15 +201,20 @@ import java.util.LinkedList;
      * @throws IndexOutOfBoundsException if index<0 || index >= size
      */
     public int remove(int index) throws IndexOutOfBoundsException {
-        // TODO: Fill in implementation
-        return 0;
+        if(index<0||index>=nelems) throw new IndexOutOfBoundsException();
+        Node removeNode=getNth(index);
+        removeNode.prev.next=removeNode.next;
+        removeNode.next.prev=removeNode.prev;
+        --nelems;
+        return removeNode.getElement();
     }
 
     /**
      * Clear the linked list
      */
     public void clear() {
-        // TODO: implement clear
+        head.next=tail;
+        nelems=0;
     }
 
     /**
@@ -196,14 +223,17 @@ import java.util.LinkedList;
      * @return true if empty, false otherwise
      */
     public boolean isEmpty() {
-        // TODO: implement isEmpty
-        return true;
+        return nelems==0;
     }
 
     // Helper method to get the Node at the Nth index
     private Node getNth(int index) {
-        // TODO: implement
-        return null;
+        Node currNode=head;
+        while(index>=0){
+            currNode=currNode.next;
+            --index;
+        }
+        return currNode;
     }
 
     /**
@@ -211,8 +241,13 @@ import java.util.LinkedList;
      * @param data data to find
      * @return true if list contains given data, false otherwise
      */
-    public boolean contains(Object data) {
-        // TODO: Fill in implementation
+    public boolean contains(int data) {
+        Node currNode=head.next;
+        while(currNode!=tail){
+            if(currNode.data==data) 
+                return true;
+            currNode=currNode.next;
+        }
         return false;
     }
 
@@ -223,6 +258,14 @@ import java.util.LinkedList;
      */
     @Override
     public String toString() {
-        return null;
+        String re=new String("[(head) -> ");
+        Node currNode=head.next;
+        while(currNode!=tail){
+            re+=String.format("%d -> ", currNode.data);
+            currNode=currNode.getNext();
+        }
+        re+="(tail)]";
+        return re;
     }
 }
+

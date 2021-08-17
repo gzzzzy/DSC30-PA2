@@ -1,3 +1,5 @@
+
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class CodeMessage extends Message {
         }
         this.contents = new String(codeSource);
         int locOfPoint = codeSource.lastIndexOf('.');
-        extension = codeSource.substring(locOfPoint, codeSource.length()).toLowerCase();
+        extension = codeSource.substring(locOfPoint+1, codeSource.length()).toLowerCase();
         List<String> list = Arrays.asList(ACCEPTABLE_EXTENSIONS);
         if (!list.contains(extension))
             throw new OperationDeniedException(INVALID_INPUT);
@@ -34,7 +36,7 @@ public class CodeMessage extends Message {
     }
 
     public String getContents() {
-        return String.format("%s %s: Code at %s", getSender().displayName(), getDate().toString(), contents);
+        return String.format("%s [%s]: Code at %s", getSender().displayName(), getDate().toString(), contents);
     }
 
     public String getExtension() {

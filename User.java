@@ -1,4 +1,5 @@
 
+
 import java.util.ArrayList;
 
 public abstract class User {
@@ -33,9 +34,9 @@ public abstract class User {
     public void joinRoom(MessageExchange me) throws OperationDeniedException {
         if (me == null)
             throw new IllegalArgumentException();
-        try {
-            me.addUser(this);
-        } catch (Exception e) {
+        if(me.addUser(this)&&!rooms.contains(me)) {
+            rooms.add(me);
+        } else {
             throw new OperationDeniedException(JOIN_ROOM_FAILED);
         }
     }
@@ -43,8 +44,8 @@ public abstract class User {
     public void quitRoom(MessageExchange me) {
         if (me == null)
             throw new IllegalArgumentException();
-        rooms.remove(me);
         me.removeUser(this, this);
+        rooms.remove(me);
     }
 
     public void sendMessage(MessageExchange me, String contents, int lines) {

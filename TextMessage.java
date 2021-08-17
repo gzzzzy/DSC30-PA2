@@ -1,4 +1,5 @@
 
+
 public class TextMessage extends Message {
 
     // Error message to use in OperationDeniedException
@@ -18,7 +19,7 @@ public class TextMessage extends Message {
 
     // Yuxuan [16:38:36.868882500]: A sample text message.
     public String getContents() {
-        return String.format("%s %s: %s", getSender().displayName(), getDate().toString(), contents);
+        return String.format("%s [%s]: %s", getSender().displayName(), getDate().toString(), contents);
     }
 
 }
